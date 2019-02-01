@@ -4,10 +4,9 @@ const db = require('../data/dbConfig');
 const resourceModel = require('./resourceModel.js');
 
 // before and after Each or before and after All
-afterEach(async () => {
+beforeEach(async () => {
   await db('resource').truncate();
 });
-
 describe('the helper functions that we need for DB', () => {
   it('should insert provided resource', async () => {
     const obj = await resourceModel.insert({ name: 'chocolate' });

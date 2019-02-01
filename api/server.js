@@ -22,13 +22,17 @@ server.post('/resource', (req, res) => {
   res.status(201).json({ name: `${name}` });
 });
 
-server.delete('/resource/:id', (req, res) => {
-  id = req.params.id;
-  const index = resource.findIndex(resource => resource.id === id);
+server.delete('/resource/:id', async (req, res) => {
+  const id = req.params.id;
 
-  const deletedResource = resource[index];
+  try {
+    const result = await resource.remove(id);
 
-  resource.splice(index, 1);
-  res.status(200).json(deletedResource);
+    res.status(200).json(result);
+  } catch (err) {
+    console.log(err);
+
+    res.status(500).json({ err: 'lol get gud at servers nub' });
+  }
 });
 module.exports = server;

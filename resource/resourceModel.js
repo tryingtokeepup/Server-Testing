@@ -20,8 +20,14 @@ async function update(id, changes) {
   return null;
 }
 
-function remove(id) {
-  return null;
+async function remove(id) {
+  console.log(id);
+  console.log({ id });
+  const response = await db('resource')
+    .where({ id })
+    .del();
+
+  return response;
 }
 
 function getAll() {

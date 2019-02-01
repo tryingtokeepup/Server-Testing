@@ -1,7 +1,11 @@
 const request = require('supertest');
 
 const server = require('./server.js');
+const db = require('../data/dbConfig');
 
+beforeEach(async () => {
+  await db('resource').truncate();
+});
 describe('server.js and its routes', () => {
   describe('quick sanity check of the GET endpoint /', () => {
     it('should respond with status code 200 OK', async () => {
@@ -22,6 +26,13 @@ describe('server.js and its routes', () => {
         .post('/resource')
         .send(body);
       expect(response.body).toEqual({ name: 'cool beans' });
+    });
+    it('needs to send back a response code 201 if successful', async () => {
+      const body = { name: 'web15 awesome' };
+      let response = await request(server)
+        .post('/resource')
+        .send(body);
+      expect(response.status).toEqual(201); // THIS FAILURE WAS INTENDED! :D
     });
   });
   describe('DELETE /resource/:id ', () => {
