@@ -8,8 +8,12 @@ module.exports = {
   findById
 };
 
-async function insert(hobbit) {
-  return db('resource').insert(resource);
+async function insert(obj) {
+  const [id] = await db('resource').insert(obj);
+
+  return db('resource')
+    .where({ id })
+    .first();
 }
 
 async function update(id, changes) {

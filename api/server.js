@@ -16,9 +16,19 @@ server.get('/resource', async (req, res) => {
   res.status(200).json(rows);
 });
 
-server.post('/greet', (req, res) => {
-  const { firstName, lastName } = req.body;
+server.post('/resource', (req, res) => {
+  const { name } = req.body;
 
-  res.status(200).json({ hello: `${firstName} ${lastName}` });
+  res.status(201).json({ name: `${name}` });
+});
+
+server.delete('/resource/:id', (req, res) => {
+  id = req.params.id;
+  const index = resource.findIndex(resource => resource.id === id);
+
+  const deletedResource = resource[index];
+
+  resource.splice(index, 1);
+  res.status(200).json(deletedResource);
 });
 module.exports = server;
